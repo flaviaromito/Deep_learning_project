@@ -1,0 +1,65 @@
+# =============================================================================
+# File di configurazione unico del progetto.
+# Tutto il codice legge gli iperparametri da qui (tramite src/config.py):
+# per un esperimento basta modificare questo file.
+# I percorsi sono relativi alla cartella principale del progetto.
+# =============================================================================
+
+# Riproducibilità
+seed: 42
+
+# -----------------------------------------------------------------------------
+# Dati
+# -----------------------------------------------------------------------------
+data:
+  root: DATA
+  splits:
+    train: train_multi_output_clear_sky
+    id: val_chopped_multi_output_clear_sky
+    ood_s: ood-s_chopped_multi_output_clear_sky
+    ood_t: ood-t_chopped_multi_output_clear_sky
+  # Lo scaler va preso SEMPRE dallo split di train
+  scaler_file: train_multi_output_clear_sky/scaler.json
+  # Frazione del train usata come validazione per scegliere gli iperparametri
+  val_fraction: 0.15
+  # Come dividere train/validazione: "random" oppure "area" (per area geografica)
+  val_split_by: area
+  num_workers: 0
+
+# -----------------------------------------------------------------------------
+# Vincoli fissati dalla traccia (non modificare)
+# -----------------------------------------------------------------------------
+task:
+  targets: [NDVI, GNDVI, EVI]
+  n_past: 3
+  n_future: 3
+  quantiles: [0.1, 0.5, 0.9]
+
+# -----------------------------------------------------------------------------
+# Modello (da completare quando scegliamo l'architettura)
+# -----------------------------------------------------------------------------
+model:
+  name: null
+  params: {}
+
+# -----------------------------------------------------------------------------
+# Addestramento
+# -----------------------------------------------------------------------------
+training:
+  epochs: 50
+  batch_size: 256
+  learning_rate: 1.0e-3
+  weight_decay: 1.0e-4
+  optimizer: adamw            # adam | adamw | sgd
+  scheduler: cosine           # none | cosine | plateau
+  gradient_clip: 1.0          # null per disattivare
+  early_stopping_patience: 10
+  device: auto                # auto | cpu | cuda
+
+# -----------------------------------------------------------------------------
+# Output
+# -----------------------------------------------------------------------------
+output:
+  dir: runs
+  experiment_name: default
+

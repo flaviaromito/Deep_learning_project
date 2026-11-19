@@ -18,6 +18,7 @@ Progetto del corso di **Deep Learning** – Laurea Magistrale in Ingegneria dei 
    - [1.7 Output probabilistico e funzione di perdita](#17-output-probabilistico-e-funzione-di-perdita)
    - [1.8 Metriche di valutazione](#18-metriche-di-valutazione)
    - [1.9 Consegna](#19-consegna)
+2. [Configurazione e iperparametri](#2-configurazione-e-iperparametri)
 
 ---
 
@@ -149,7 +150,34 @@ Il modello viene confrontato con il **modello di riferimento dei docenti**, usan
 
 ---
 
-## 2. Setup
+## 2. Configurazione e iperparametri
+
+Tutti gli iperparametri e i percorsi del progetto sono centralizzati nel file [`config.yaml`](config.yaml) nella cartella principale. Per cambiare un parametro o fare un nuovo esperimento basta modificare quel file, senza toccare il codice Python.
+
+### Sezioni principali di `config.yaml`
+
+- **`seed`**: seme per la riproducibilità degli esperimenti.
+- **`data`**: percorso della cartella `DATA/`, nomi degli split (`train`, `id`, `ood_s`, `ood_t`), file dello scaler del train (`scaler_file`), frazione e criterio di validazione (`val_fraction`, `val_split_by`).
+- **`task`**: vincoli fissati dalla traccia (`targets`, `n_past`, `n_future`, `quantiles`) — da non modificare.
+- **`model`**: nome del modello (`name`) e dizionario dei suoi parametri (`params`), da compilare in base all'architettura scelta.
+- **`training`**: epoche, `batch_size`, `learning_rate`, `weight_decay`, `optimizer`, `scheduler`, `gradient_clip`, `early_stopping_patience` e `device`.
+- **`output`**: cartella di salvataggio (`dir`) e nome dell'esperimento (`experiment_name`).
+
+### Lettura dal codice
+
+Il modulo [`src/config.py`](src/config.py) espone `load_config()`, che legge `config.yaml` e lo restituisce come dizionario Python:
+
+```python
+from src.config import load_config
+
+cfg = load_config()
+lr = cfg["training"]["learning_rate"]
+batch_size = cfg["training"]["batch_size"]
+```
+
+---
+
+## 3. Setup
 
 ```bash
 # creare e attivare l'ambiente virtuale (testato con Python 3.14)
@@ -163,14 +191,14 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## 3. Struttura del repository
+## 4. Struttura del repository
 
 *Da completare.*
 
-## 4. Addestramento e valutazione
+## 5. Addestramento e valutazione
 
 *Da completare.*
 
-## 5. Risultati
+## 6. Risultati
 
 *Da completare.*
