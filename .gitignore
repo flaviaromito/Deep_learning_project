@@ -220,3 +220,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Materiale del corso da non pubblicare
+spiegazione_traccia.pdf
+
