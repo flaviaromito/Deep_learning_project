@@ -24,7 +24,24 @@ data:
   val_fraction: 0.15
   # Come dividere train/validazione: "random" oppure "area" (per area geografica)
   val_split_by: area
+  # Bilancia lo split train/val per area su numero di campioni e classi climatiche di Köppen
+  val_balance_climate: true
   num_workers: 0
+
+# -----------------------------------------------------------------------------
+# Preprocessing e pipeline dataset (Persona 1)
+# -----------------------------------------------------------------------------
+preprocessing:
+  normalize_features: true      # applica standardization_arcsinh con lo scaler del train
+  normalize_targets: true       # applica standardization_arcsinh ai target (inversa in valutazione)
+  nan_fill_value: 0.0           # riempimento post-scaling dopo masking (MAI interpolazione)
+  mask_true_is_missing: true    # convenzione fissa: True = NaN/padding, False = valido
+  max_seq_len: 150              # supporta sequenze fino ad almeno 150 giorni (ood_s arriva a 126)
+  dynamic_padding: true         # padding alla lunghezza massima del batch
+  use_climate: false            # fisso a false: 100% "unknown" su ood_s
+  use_future_meteo: true        # false solo per ablation senza meteo futuro
+  drop_features: []             # es. ["wind"] per ablation
+  add_delta_t: true             # feature temporali Δt rispetto a t0 e ai future_target_positions
 
 # -----------------------------------------------------------------------------
 # Vincoli fissati dalla traccia (non modificare)
