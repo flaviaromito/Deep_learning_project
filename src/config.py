@@ -1,7 +1,7 @@
 """Lettura del file di configurazione config.yaml (nella cartella principale del progetto).
 
 Uso:
-    from config import load_config
+    from src.config import load_config
     cfg = load_config()
     lr = cfg["training"]["learning_rate"]
 """

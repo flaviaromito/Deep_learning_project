@@ -10,7 +10,7 @@ Analizza tutti e 4 gli split (train, id, ood_s, ood_t) in DATA/:
 - entità del rumore nel meteo futuro (future_noise).
 
 Uso:
-    python3 src/eda.py
+    python -m src.eda
 """
 
 from __future__ import annotations
@@ -31,7 +31,8 @@ import pandas as pd
 import seaborn as sns
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(PROJECT_ROOT))
+if __package__ is None:
+    sys.path.insert(0, str(PROJECT_ROOT))
 from src.config import load_config
 
 
